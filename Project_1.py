@@ -1,28 +1,72 @@
-import csv
+def add_student(student_data, roll_no, name, age, grade):
+    student_data[roll_no] = {
+        'name': name,
+        'age': age,
+        'grade': grade
+    }
 
-def write_into_csv(info_list):
-    with open('student_info.csv', 'a', newline='') as csv_file:
-        writer = csv.writer(csv_file)
+def display_student(student_data, roll_no):
+    if roll_no in student_data:
+        student = student_data[roll_no]
+        print(f"Roll No: {roll_no}")
+        print(f"Name: {student['name']}")
+        print(f"Age: {student['age']}")
+        print(f"Grade: {student['grade']}")
+    else:
+        print("Student not found.")
 
-        if csv_file.tell() == 0:
-            writer.writerow(['Name', 'Age', 'Contact_Number', 'Email_ID'])
-        
-        writer.writerow(info_list)
+def update_student(student_data, roll_no, name, age, grade):
+    if roll_no in student_data:
+        student_data[roll_no]['name'] = name
+        student_data[roll_no]['age'] = age
+        student_data[roll_no]['grade'] = grade
+        print("Student information updated.")
+    else:
+        print("Student not found.")
 
-if __name__ == '__main__':
-    condition = True
+def delete_student(student_data, roll_no):
+    if roll_no in student_data:
+        del student_data[roll_no]
+        print("Student record deleted.")
+    else:
+        print("Student not found.")
 
-    while condition:
-        student_info = input("Enter student information in the following format (Name Age Contact_Number Email_ID): ")
-        print("Entered information: " + student_info)
+def main():
+    student_data = {} 
 
-        student_info_list = student_info.split(" ")
-        print("Entered split-up information: " + str(student_info_list))
+    while True:
+        print("\nSchool Administration Program")
+        print("1. Add Student")
+        print("2. Display Student")
+        print("3. Update Student")
+        print("4. Delete Student")
+        print("5. Exit")
 
-        write_into_csv(student_info_list)
+        choice = int(input("Enter your choice (1-5): "))
 
-        condition_check = input("Do you want to enter information for another student (yes/no): ")
-        if condition_check.lower() == "yes":
-            condition = True
-        elif condition_check.lower() == "no":
-            condition = False
+        if choice == 1:
+            roll_no = int(input("Enter Roll No: "))
+            name = input("Enter Name: ")
+            age = int(input("Enter Age: "))
+            grade = input("Enter Grade: ")
+            add_student(student_data, roll_no, name, age, grade)
+        elif choice == 2:
+            roll_no = int(input("Enter Roll No: "))
+            display_student(student_data, roll_no)
+        elif choice == 3:
+            roll_no = int(input("Enter Roll No: "))
+            name = input("Enter New Name: ")
+            age = int(input("Enter New Age: "))
+            grade = input("Enter New Grade: ")
+            update_student(student_data, roll_no, name, age, grade)
+        elif choice == 4:
+            roll_no = int(input("Enter Roll No: "))
+            delete_student(student_data, roll_no)
+        elif choice == 5:
+            print("Exiting School Administration Program.")
+            break
+        else:
+            print("Invalid choice. Please try again.")
+
+if __name__ == "__main__":
+    main()
